@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from pyzbar.pyzbar import decode
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
 import io
 import cv2
 import numpy as np
@@ -9,6 +9,22 @@ import base64
 import csv
 
 app = Flask(__name__)
+
+
+def preprocess_image(image_np, attempt):
+  if attempt == 0:
+    return image_np
+  elif attempt == 1:
+    return cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+  elif attempt == 2:
+    return cv2.GaussianBlur(image_np, (5, 5), 0)
+  elif attempt == 3:
+    return cv2.rotate(image_np, cv2.ROTATE_90_CLOCKWISE)
+  elif attempt == 4:
+    return cv2.rotate(image_np, cv2.ROTATE_180)
+  elif attempt == 5:
+    return cv2.rotate(image_np, cv2.ROTATE_90_COUNTERCLOCKWISE)
+  return image_np
 
 
 @app.route("/", methods=['GET'])
@@ -26,8 +42,15 @@ def scan_qr():
     # Convert image to OpenCV format
     image_np = np.array(image)
 
-    # Decode QR codes using pyzbar
-    decoded_objects = decode(image)
+    attempts = 6
+    decoded_objects = []
+
+    for attempt in range(attempts):
+      processed_image = preprocess_image(image_np, attempt)
+      decoded_objects = decode(Image.fromarray(processed_image))
+
+      if decoded_objects:
+        break
 
     if decoded_objects:
       qr_data_list = []

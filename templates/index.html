@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR_Скан</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f4f8;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #video {
+            border: 2px solid #007BFF;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        #captureBtn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #captureBtn:hover {
+            background-color: #0056b3;
+        }
+
+        #canvas {
+            display: none;
+            border: 2px solid #007BFF;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            #video, #canvas {
+                width: 100%;
+                height: auto;
+            }
+
+            #captureBtn {
+                width: 100%;
+                padding: 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>QR_Скан</h1>
+    <video id="video" width="500" height="500" autoplay></video>
+    <button id="captureBtn">Capture Photo</button>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+        const video = document.getElementById('video');
+        const captureBtn = document.getElementById('captureBtn');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Error accessing camera: ", err);
+            });
+
+        captureBtn.addEventListener('click', () => {
+            canvas.style.display = 'block';
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob((blob) => {
+                const formData = new FormData();
+                formData.append('file', blob, 'capture.png');
+
+                fetch('/scan-qr/', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    alert('QR Data: ' + data.data);
+                    canvas.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    canvas.style.display = 'none';
+                });
+            }, 'image/png');
+        });
+    </script>
+</body>
+</html>

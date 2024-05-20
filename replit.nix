@@ -1,19 +1,20 @@
 { pkgs }: {
   deps = [
-    pkgs.glibcLocales
-    pkgs.python310Full
-    pkgs.zbar
-    pkgs.poetry
-    pkgs.python310Full
-    pkgs.python310Packages.opencv4
-    pkgs.ffmpeg
-    pkgs.libv4l
-    pkgs.v4l-utils
+    pkgs.python38Full
   ];
-
   env = {
-    LC_ALL = "en_US.utf8";
-    LANG = "en_US.utf8";
-    LD_LIBRARY_PATH = "${pkgs.zbar}/lib:${placeholder ''LD_LIBRARY_PATH''}";
+    PYTHON_LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
+      # Neded for pandas / numpy
+      pkgs.stdenv.cc.cc.lib
+      pkgs.zlib
+      # Needed for pygame
+      pkgs.glib
+      # Needed for matplotlib
+      pkgs.xorg.libX11
+      # Needed for opencv-python
+      pkgs.libGL
+    ];
+    PYTHONBIN = "${pkgs.python38Full}/bin/python3.8";
+    LANG = "en_US.UTF-8";
   };
 }

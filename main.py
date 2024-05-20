@@ -4,7 +4,6 @@ from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
 import io
 import cv2
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
 import base64
 import csv
 
@@ -77,18 +76,14 @@ def scan_qr():
       _, buffer = cv2.imencode('.png', image_np)
       encoded_image = io.BytesIO(buffer).getvalue()
 
-      vectorizer = TfidfVectorizer()
-      X = vectorizer.fit_transform(qr_data_list)
-      tfidf_scores = X.toarray()
-
       with open("qr_data.txt", "a") as file:
         for idx, qr_data in enumerate(qr_data_list):
-          file.write(f"Data: {qr_data}, TF-IDF Scores: {tfidf_scores[idx]}\n")
+          file.write(f"Data: {qr_data}\n")
 
       with open("qr_data.csv", "a", newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         for idx, qr_data in enumerate(qr_data_list):
-          csvwriter.writerow([qr_data] + tfidf_scores[idx].tolist())
+          csvwriter.writerow([qr_data])
 
       encoded_image_b64 = base64.b64encode(encoded_image).decode('utf-8')
 

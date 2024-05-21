@@ -87,6 +87,54 @@ ________
 
 
 ```python
+from flask import Flask, request, jsonify, render_template
+from pyzbar.pyzbar import decode
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
+import io
+import cv2
+import numpy as np
+import base64
+import csv
+
+app = Flask(__name__)
+
+
+def preprocess_image(image_np, attempt):
+  if attempt == 0:
+    return image_np
+  elif attempt == 1:
+    return cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+  elif attempt == 2:
+    return cv2.GaussianBlur(image_np, (5, 5), 0)
+  elif attempt == 3:
+    return cv2.rotate(image_np, cv2.ROTATE_90_CLOCKWISE)
+  elif attempt == 4:
+    return cv2.rotate(image_np, cv2.ROTATE_180)
+  elif attempt == 5:
+    return cv2.rotate(image_np, cv2.ROTATE_90_COUNTERCLOCKWISE)
+  elif attempt == 6:
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+    return cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                 cv2.THRESH_BINARY, 11, 2)
+  elif attempt == 7:
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+    return cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
+                                 cv2.THRESH_BINARY, 11, 2)
+  elif attempt == 8:
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+    return cv2.Canny(gray, 50, 150)
+  elif attempt == 9:
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+    dilated = cv2.dilate(gray, np.ones((3, 3), np.uint8), iterations=1)
+    return cv2.erode(dilated, np.ones((3, 3), np.uint8), iterations=1)
+  elif attempt == 10:
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    return cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                 cv2.THRESH_BINARY, 11, 2)
+  return image_np
+
+
 @app.route("/", methods=['GET'])
 def read_root():
   return render_template('index.html')
@@ -156,4 +204,8 @@ def scan_qr():
 
   except Exception as e:
     return jsonify({"error": str(e)}), 500
+
+
+if __name__ == "__main__":
+  app.run(host="0.0.0.0", port=8000)
 ```

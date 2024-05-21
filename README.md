@@ -76,7 +76,6 @@ ________
 
 ### Сканирование QR-кода (`scan_qr`)
 
-Код маршрута:
 
 ```python
 @app.route("/scan-qr", methods=['POST'])

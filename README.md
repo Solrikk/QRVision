@@ -52,60 +52,32 @@ ________
 
   - **OpenCV (Open Source Computer Vision Library)** — используется для различных задач, связанных с обработкой изображений и распознаванием QR-кодов. OpenCV является мощным инструментом для компьютерного зрения и обработки изображений с множеством функций и модулей:
 
-1. **_ORB (Oriented FAST and Rotated BRIEF)_**:
-```python
-def load_reference_qr():
-    global orb, kp_ref, des_ref
-    orb = cv2.ORB_create()
-    ref_image_path = os.path.join("qrp", "qr_code_1.png")
-    ref_image = cv2.imread(ref_image_path, cv2.IMREAD_GRAYSCALE)
-    if ref_image is None:
-        raise FileNotFoundError(f"Reference QR code image not found at path: {ref_image_path}")
-    kp_ref, des_ref = orb.detectAndCompute(ref_image, None)
-```
-2. **_Предварительная обработка изображений:_**
+### Процесс сканирования QR-кодов:
 
-В функции preprocess_image(image_np, attempt) применяется несколько методов обработки изображений в зависимости от значения переменной attempt.
-```python
-def preprocess_image(image_np, attempt):
-    if attempt == 0:
-        return image_np
-    elif attempt == 1:
-        return cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
-    elif attempt == 2:
-        return cv2.GaussianBlur(image_np, (5, 5), 0)
-    elif attempt == 3:
-        return cv2.rotate(image_np, cv2.ROTATE_90_CLOCKWISE)
-    elif attempt == 4:
-        return cv2.rotate(image_np, cv2.ROTATE_180)
-    elif attempt == 5:
-        return cv2.rotate(image_np, cv2.ROTATE_90_COUNTERCLOCKWISE)
-    elif attempt == 6:
-        # ORB feature detection and matching
-        kp, des = orb.detectAndCompute(image_np, None)
-        bf = cv2.BFMatcher(cv2.NORM_H
- ```
-________
+1. **Загрузка изображения**:
+    - При нажатии на кнопку сканирования `JavaScript` захватывает изображение с камеры и отправляет его на сервер через `POST-запрос` .
 
-### Маршруты
+2. **Получение изображения на сервере**: Flask получает изображение через эндпоинт `/scan-qr/`.
+    - `main.py`: Серверный код получает изображение, используя Flask, и читает его содержимое.
 
-### Главная страница (index)
+3. **Предобработка изображения**: С помощью **`OpenCV`** изображение преобразуется для улучшения видимости QR-кода.
+    - В функции `preprocess_image` изображение может быть конвертировано в серый цвет, заблюрено, повёрнуто или подвергнуто адаптивному пороговому преобразованию.
 
-**Код маршрута:**
+4. **Декодирование QR-кода**: Библиотека **`Pyzbar`** декодирует QR-коды на обработанном изображении.
+    - `main.py`: Функция `decode` из Pyzbar пытается распознать QR-коды на каждом этапе предобработки изображения.
 
-```python
-@app.route("/")
-def index():
-    return render_template("index.html")
-```
-_Пояснение:_
+5. **Результат декодирования**: Если QR-код был успешно распознан, данные из QR-кода сохраняются.
+    - `main.py`: Считанные данные сохраняются в **`PostgreSQL`**
 
-1. @app.route("/"): Эта строка определяет маршрут для главной страницы приложения. Здесь используется корневой URL (/)
+6. **Возврат результата на клиент**: Результаты обработки, включая декодированные данные и обработанное изображение, возвращаются оператору.
+   - Сервер кодирует обработанное изображение в Base64, чтобы вернуть его в формате JSON через Flask.
+   - Оператору отображается результат на веб-странице.
 
 
 ### Сканирование QR-кода (`scan_qr`)
 
 Код маршрута:
+
 ```python
 @app.route("/scan-qr", methods=['POST'])
 def scan_qr():

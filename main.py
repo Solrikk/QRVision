@@ -23,6 +23,22 @@ def preprocess_image(image_np, attempt):
     return cv2.rotate(image_np, cv2.ROTATE_180)
   elif attempt == 5:
     return cv2.rotate(image_np, cv2.ROTATE_90_COUNTERCLOCKWISE)
+  elif attempt == 6:
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+    return cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                 cv2.THRESH_BINARY, 11, 2)
+  elif attempt == 7:
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+    return cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
+                                 cv2.THRESH_BINARY, 11, 2)
+  elif attempt == 8:
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+    return cv2.Canny(gray, 100, 200)  # Edge detection
+  elif attempt == 9:
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+    dilated = cv2.dilate(gray, np.ones((5, 5), np.uint8), iterations=1)
+    return cv2.erode(dilated, np.ones((5, 5), np.uint8),
+                     iterations=1)  # Dilation followed by erosion (closing)
   return image_np
 
 
@@ -38,10 +54,9 @@ def scan_qr():
     contents = file.read()
     image = Image.open(io.BytesIO(contents))
 
-    # Convert image to OpenCV format
     image_np = np.array(image)
 
-    attempts = 6
+    attempts = 10
     decoded_objects = []
 
     for attempt in range(attempts):
@@ -93,6 +108,7 @@ def scan_qr():
       })
     else:
       return jsonify({"data": "No QR code found."})
+
   except Exception as e:
     return jsonify({"error": str(e)}), 500
 

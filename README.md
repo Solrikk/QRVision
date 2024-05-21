@@ -15,7 +15,6 @@
 ├── templates
 │   └── index.html
 ├── ...
-├── .replit
 ├── replit.nix
 ```
 ## Основные компоненты

@@ -1,140 +1,14 @@
 <!DOCTYPE html>
-<html lang="ru">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR_Скан</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f4f8;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        #video {
-            border: 2px solid #007BFF;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        #captureBtn {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px 0;
-            font-size: 16px;
-            color: #fff;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #captureBtn:hover {
-            background-color: #0056b3;
-        }
-
-        #canvas {
-            display: none;
-            border: 2px solid #007BFF;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        #results {
-            display: none;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        #qrImage {
-            border: 2px solid #007BFF;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 600px) {
-            #video,
-            #canvas {
-                width: 100%;
-                height: auto;
-            }
-
-            #captureBtn {
-                width: 100%;
-                padding: 15px 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
 </head>
-
 <body>
     <h1>QR_Скан</h1>
-    <video id="video" width="500" height="500" autoplay></video>
-    <button id="captureBtn">Capture Photo</button>
-    <canvas id="canvas" width="500" height="500"></canvas>
-    <div id="results">
-        <h2>Результаты сканирования</h2>
-        <div id="qrData"></div>
-        <img id="qrImage" src="" alt="QR Result">
-    </div>
-    <script>
-        const video = document.getElementById('video');
-        const captureBtn = document.getElementById('captureBtn');
-        const canvas = document.getElementById('canvas');
-        const results = document.getElementById('results');
-        const qrImage = document.getElementById('qrImage');
-        const qrDataContainer = document.getElementById('qrData');
-        const ctx = canvas.getContext('2d');
-
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
-                video.srcObject = stream;
-            })
-            .catch(err => {
-                console.error("Error accessing camera: ", err);
-            });
-
-        captureBtn.addEventListener('click', () => {
-            canvas.style.display = 'block';
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            canvas.toBlob((blob) => {
-                const formData = new FormData();
-                formData.append('file', blob, 'capture.png');
-
-                fetch('/scan-qr', {  // Без косой черты
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.ok ? response.json() : Promise.reject(response))
-                .then((data) => {
-                    if (data.error) {
-                        alert('Ошибка: ' + data.error);
-                    } else {
-                        qrDataContainer.innerHTML = data.data.map(qrData => `<p>${qrData}</p>`).join('');
-                        qrImage.src = 'data:image/png;base64,' + data.processed_image;
-                        results.style.display = 'block';
-                    }
-                    canvas.style.display = 'none';
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    canvas.style.display = 'none';
-                });
-            }, 'image/png');
-        });
-    </script>
+    <video id="video" width="640" height="360" autoplay></video>
+    <button id="captureBtn">Сканировать QR-код</button>
+    <canvas id="canvas" width="640" height="360"></canvas>
+    <script src="/static/script.js"></script>
 </body>
-
 </html>

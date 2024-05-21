@@ -57,19 +57,24 @@ ________
 1. **Загрузка изображения**:
     - При нажатии на кнопку сканирования `JavaScript` захватывает изображение с камеры и отправляет его на сервер через `POST-запрос` .
 
-2. **Получение изображения на сервере**: Flask получает изображение через эндпоинт `/scan-qr/`.
+2. **Получение изображения на сервере**: 
+ - Flask получает изображение через эндпоинт `/scan-qr/`.
     - `main.py`: Серверный код получает изображение, используя Flask, и читает его содержимое.
 
-3. **Предобработка изображения**: С помощью **`OpenCV`** изображение преобразуется для улучшения видимости QR-кода.
+3. **Предобработка изображения**: 
+- С помощью **`OpenCV`** изображение преобразуется для улучшения видимости QR-кода.
     - В функции `preprocess_image` изображение может быть конвертировано в серый цвет, заблюрено, повёрнуто или подвергнуто адаптивному пороговому преобразованию.
 
-4. **Декодирование QR-кода**: Библиотека **`Pyzbar`** декодирует QR-коды на обработанном изображении.
+4. **Декодирование QR-кода**: 
+- Библиотека **`Pyzbar`** декодирует QR-коды на обработанном изображении.
     - `main.py`: Функция `decode` из Pyzbar пытается распознать QR-коды на каждом этапе предобработки изображения.
 
-5. **Результат декодирования**: Если QR-код был успешно распознан, данные из QR-кода сохраняются.
+5. **Результат декодирования**: 
+- Если QR-код был успешно распознан, данные из QR-кода сохраняются.
     - `main.py`: Считанные данные сохраняются в **`PostgreSQL`**
 
-6. **Возврат результата на клиент**: Результаты обработки, включая декодированные данные и обработанное изображение, возвращаются оператору.
+6. **Возврат результата на клиент**: 
+- Результаты обработки, включая декодированные данные и обработанное изображение, возвращаются оператору.
    - Сервер кодирует обработанное изображение в Base64, чтобы вернуть его в формате JSON через Flask.
    - Оператору отображается результат на веб-странице.
 
@@ -78,73 +83,73 @@ ________
 
 
 ```python
-@app.route("/scan-qr", methods=['POST'])
+@app.route("/", methods=['GET'])
+def read_root():
+  return render_template('index.html')
+
+
+@app.route("/scan-qr/", methods=['POST'])
 def scan_qr():
-    try:
-        file = request.files['file']
-        if file.mimetype not in ['image/jpeg', 'image/png']:
-            return jsonify({"error": "Invalid file type. Only JPEG and PNG are supported."}), 400
-        if file.content_length > 5 * 1024 * 1024:
-            return jsonify({"error": "File size exceeds limit of 5MB"}), 400
+  try:
+    file = request.files['file']
+    contents = file.read()
+    image = Image.open(io.BytesIO(contents))
 
-        contents = file.read()
-        try:
-            image = Image.open(io.BytesIO(contents))
-        except Exception as e:
-            return jsonify({"error": f"Error opening image: {str(e)}"}), 500
+    image_np = np.array(image)
 
-        image_np = np.array(image)
-        attempts = 7
-        decoded_objects = []
+    attempts = 10
+    decoded_objects = []
 
-        for attempt in range(attempts):
-            try:
-                processed_image = preprocess_image(image_np, attempt)
-                decoded_objects = decode(Image.fromarray(processed_image))
-            except Exception as e:
-                app.logger.error(f"Error during decoding attempt {attempt}: {str(e)}")
-                continue
-            if decoded_objects:
-                break
+    for attempt in range(attempts):
+      processed_image = preprocess_image(image_np, attempt)
+      decoded_objects = decode(Image.fromarray(processed_image))
 
-        if decoded_objects:
-            qr_data_list = []
-            image_draw = ImageDraw.Draw(image)
-            for obj in decoded_objects:
-                qr_data = obj.data.decode('utf-8')
-                qr_data_list.append(qr_data)
-                points = obj.polygon
-                if len(points) == 4:
-                    pts = np.array(points, dtype=np.int32)
-                    cv2.polylines(image_np, [pts], isClosed=True, color=(0, 255, 0), thickness=2)
-                    text_position = (points[0].x, points[0].y - 10)
-                    image_draw.text(text_position, f"QR", fill=(255, 0, 0))
+      if decoded_objects:
+        break
 
-            marked_image = Image.fromarray(image_np)
-            _, buffer = cv2.imencode('.png', np.array(marked_image))
-            encoded_image = io.BytesIO(buffer).getvalue()
+    if decoded_objects:
+      qr_data_list = []
+      image_draw = ImageDraw.Draw(image)
 
-            vectorizer = TfidfVectorizer()
-            X = vectorizer.fit_transform(qr_data_list)
-            tfidf_scores = X.toarray()
+      for obj in decoded_objects:
+        qr_data = obj.data.decode('utf-8')
+        qr_data_list.append(qr_data)
 
-            with open("qr_data.txt", "a") as txt_file:
-                for idx, qr_data in enumerate(qr_data_list):
-                    txt_file.write(f"Data: {qr_data}, TF-IDF Scores: {tfidf_scores[idx]}\n")
+        points = obj.polygon
+        if len(points) == 4:
+          pts = np.array(points, dtype=np.int32)
+          cv2.polylines(image_np, [pts],
+                        isClosed=True,
+                        color=(0, 255, 0),
+                        thickness=2)
 
-            with open("qr_data.csv", "a", newline='') as csvfile:
-                csvwriter = csv.writer(csvfile)
-                for idx, qr_data in enumerate(qr_data_list):
-                    csvwriter.writerow([qr_data] + tfidf_scores[idx].tolist())
+          text_position = (points[0].x, points[0].y - 10)
+          image_draw.text(text_position, f"QR", fill=(255, 0, 0))
 
-            encoded_image_b64 = base64.b64encode(encoded_image).decode('utf-8')
-            return jsonify({
-                "data": qr_data_list,
-                "processed_image": encoded_image_b64
-            })
-        else:
-            return jsonify({"error": "No QR code found."}), 404
-    except Exception as e:
-        app.logger.error(f"Error in /scan-qr route: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+      marked_image = Image.fromarray(image_np)
+      marked_image.save("marked_image.png")
+
+      _, buffer = cv2.imencode('.png', image_np)
+      encoded_image = io.BytesIO(buffer).getvalue()
+
+      with open("qr_data.txt", "a") as file:
+        for idx, qr_data in enumerate(qr_data_list):
+          file.write(f"Data: {qr_data}\n")
+
+      with open("qr_data.csv", "a", newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        for idx, qr_data in enumerate(qr_data_list):
+          csvwriter.writerow([qr_data])
+
+      encoded_image_b64 = base64.b64encode(encoded_image).decode('utf-8')
+
+      return jsonify({
+          "data": qr_data_list,
+          "processed_image": encoded_image_b64
+      })
+    else:
+      return jsonify({"data": "No QR code found."})
+
+  except Exception as e:
+    return jsonify({"error": str(e)}), 500
 ```

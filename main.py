@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from pyzbar.pyzbar import decode
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageEnhance
 import io
 import numpy as np
 import base64
@@ -8,8 +8,7 @@ import cv2
 from models import init_db, db_session, QRData
 
 app = Flask(__name__)
-app.config[
-    'SQLALCHEMY_DATABASE_URI'] = "postgresql://neondb_owner:jHdqIzbMG43S@ep-tight-poetry-a51ypzfn.us-east-2.aws.neon.tech/neondb?sslmode=require&options=project%3Dep-tight-poetry-a51ypzfn"
+app.config['SQLALCHEMY_DATABASE_URI'] = "your-database-uri"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 init_db()
 
@@ -52,6 +51,11 @@ def preprocess_image(image_np, attempt):
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     return cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                  cv2.THRESH_BINARY, 11, 2)
+  elif attempt == 11:
+    image_pil = Image.fromarray(cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB))
+    enhancer = ImageEnhance.Sharpness(image_pil)
+    enhanced_image = enhancer.enhance(2.0)
+    return cv2.cvtColor(np.array(enhanced_image), cv2.COLOR_RGB2BGR)
   return image_np
 
 
@@ -69,7 +73,7 @@ def scan_qr():
 
     image_np = np.array(image)
 
-    attempts = 10
+    attempts = 12
     decoded_objects = []
 
     for attempt in range(attempts):

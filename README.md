@@ -2,40 +2,40 @@
 
 -----------------
 
-**`QRVision`** — представляет собой веб-сервис для сканирования QR-кодов, где фронтенд взаимодействует с оператором для захвата изображения через камеру, а бэкенд обрабатывает это изображение и пытается извлечь данные из QR-кодов в базу данных.
+**`QRVision`** is a web service for scanning QR codes, where the frontend interacts with the operator to capture an image via the camera, and the backend processes this image and attempts to extract data from the QR codes into a database.
 
-## Основные компоненты
+## Main Components
 
-### _Стек технологий:_
+### _Technology Stack:_
 
 ### _Backend:_
 
-- **`Python`**: Основной язык программирования проекта.
-- **`Flask`**: Веб-фреймворк для создания веб-приложений.
-- **`OpenCV`**: Библиотека компьютерного зрения для обработки изображений.
-- **`pyzbar`**: Библиотека для декодирования QR-кодов.
-- **`scikit-learn`**: Библиотека машинного обучения (используется для обработки данных с TF-IDF).
-- **`numpy`**: Библиотека для численных вычислений в Python.
-- **`SQLAlchemy`**: ORM для работы с базой данных.
-- **`PostgreSQL`**: СУБД для хранения QR-кодов и связанных данных.
+- **`Python`**: The main programming language of the project.
+- **`Flask`**: A web framework for creating web applications.
+- **`OpenCV`**: A computer vision library for image processing.
+- **`pyzbar`**: A library for decoding QR codes.
+- **`scikit-learn`**: A machine learning library (used for data processing with TF-IDF).
+- **`numpy`**: A library for numerical computations in Python.
+- **`SQLAlchemy`**: An ORM for working with the database.
+- **`PostgreSQL`**: A DBMS for storing QR codes and related data.
 
 ### _Frontend:_
 
-- **`HTML`**: Язык разметки для создания веб-страницы.
-- **`CSS`**: Язык стилей для оформления веб-страницы.
-- **`JavaScript`**: Для взаимодействия с пользователем (захват изображения с камеры и отправка на сервер).
+- **`HTML`**: A markup language for creating web pages.
+- **`CSS`**: A stylesheet language for styling web pages.
+- **`JavaScript`**: For user interaction (capturing an image from the camera and sending it to the server).
 
-### _Дополнительные зависимости:_
+### _Additional Dependencies:_
 
-- **`Poetry`**: Инструмент для управления зависимостями и создания виртуальных окружений в Python.
-- **`pyright`**: Статический анализатор типов для Python.
-- **`ruff`**: Линтер для улучшения качества кода и соблюдения стиля.
+- **`Poetry`**: A tool for dependency management and virtual environment creation in Python.
+- **`pyright`**: A static type checker for Python.
+- **`ruff`**: A linter for improving code quality and style adherence.
 
 ### _Deployment:_
 
-- **`Gunicorn`**: WSGI HTTP сервер для запуска Flask-приложения в производственной среде.
+- **`Gunicorn`**: A WSGI HTTP server for running the Flask application in a production environment.
 
-### _Файловая структура:_
+### _File Structure:_
 
 ```shell
 /app
@@ -57,53 +57,51 @@
 - **`pyproject.toml`**: Файл конфигурации для управления зависимостями проекта и настройки релевации кода (Pyright и Ruff).
 ________
 
-  - **OpenCV (Open Source Computer Vision Library)** — используется для различных задач, связанных с обработкой изображений и распознаванием QR-кодов. OpenCV является мощным инструментом для компьютерного зрения и обработки изображений с множеством функций и модулей:
+  - **OpenCV (Open Source Computer Vision Library)** — used for various tasks related to image processing and QR code recognition. OpenCV is a powerful tool for computer vision and image processing with many features and modules:
 
-### _Процесс сканирования QR-кодов:_
+### _Process of QR Code Scanning:_
 
-### 1. **Загрузка изображения**:
-    - При нажатии на кнопку сканирования `JavaScript` захватывает изображение с камеры и отправляет его на сервер через `POST-запрос` .
+### 1. **Image Upload**:
+    - When the scan button is clicked, `JavaScript` captures the image from the camera and sends it to the server via a `POST request` .
 
-### 2. **Получение изображения на сервере**: 
- - Flask получает изображение через эндпоинт `/scan-qr/`.
-    - `main.py`: Серверный код получает изображение, используя Flask, и читает его содержимое.
+### 2. **Receiving the Image on the Server**: 
+ - Flask receives the image via endpoint `/scan-qr/`.
+    - `main.py`: Server-side code receives the image using Flask and reads its content.
 
-### 3. **Предобработка изображения**: 
-- С помощью **`OpenCV`** изображение преобразуется для улучшения видимости QR-кода.
-    - В функции `preprocess_image` изображение может быть конвертировано в серый цвет, заблюрено, повёрнуто или подвергнуто адаптивному пороговому преобразованию.
+### 3. **Image Preprocessing**: 
+- Using **`OpenCV`**, the image is transformed to enhance the visibility of the QR code.
+    - In the `preprocess_image` function, the image can be converted to grayscale, blurred, rotated, or subjected to adaptive thresholding transformations.
 
-### 4. **Декодирование QR-кода**: 
-- Библиотека **`Pyzbar`** декодирует QR-коды на обработанном изображении.
-    - `main.py`: Функция `decode` из Pyzbar пытается распознать QR-коды на каждом этапе предобработки изображения.
-    - В `models.py` определяется модель QR-кода для базы данных.
+### 4. **QR Code Decoding**: 
+- The **`Pyzbar`** library decodes QR codes on the processed image.
+    - `main.py`: The `decode` function from Pyzbar attempts to recognize QR codes at each stage of image preprocessing.
+    - The `models.py` file defines the QR code model for the database.
 
-### 5. **Результат декодирования**: 
-- Если QR-код был успешно распознан, данные из QR-кода сохраняются в PostgreSQL.
-    - `main.py`: Считанные данные сохраняются в **`PostgreSQL`**
-    - В `db.py` конфигурируется подключение к базе данных и управляется сессиями запросов.
+### 5. **Decoding Result**: 
+- If the QR code is successfully recognized, the data from the QR code is saved to PostgreSQL.
+    - `main.py`: The read data is saved into **`PostgreSQL`**.
+    - `db.py` configures the database connection and manages query sessions.
 
-### 6. **Возврат результата на клиент**: 
-- Результаты обработки, включая декодированные данные и обработанное изображение, возвращаются оператору.
-   - Сервер кодирует обработанное изображение в Base64, чтобы вернуть его в формате JSON через Flask.
-   - Оператору отображается результат на веб-странице.
+### 6. **Returning the Result to the Client**: 
+- The processing results, including the decoded data and the processed image, are returned to the operator.
+   - The server encodes the processed image in Base64 to return it in JSON format via Flask.
+   - The operator is shown the result on the webpage.
 
-### 7. **База данных:**
-Для хранения данных используем PostgreSQL, СУБД, которая позволяет надежно хранить данные и легко масштабироваться.
- - SQLAlchemy ORM используется для взаимодействия с базой данных. Он упрощает работу с данными и позволяет писать код, независимый от конкретной СУБД.
- - Модели определяются в `models.py`. Они представляют собой схемы таблиц базы данных и позволяют взаимодействовать с данными через классы Python.
+### 7. **Database**:
+We use PostgreSQL to store data, a DBMS that allows reliable data storage and easy scalability.
+ - SQLAlchemy ORM is used to interact with the database. It simplifies data handling and enables database-independent code.
+ - Models are defined in `models.py`. These models represent database table schemas and allow interaction with the data through Python classes.
 
-**`PostgreSQL`** — это мощная, объектно-реляционная база данных с открытым исходным кодом (ORDBMS). Она поддерживает множество современных функций и стандартов SQL.
+**`PostgreSQL`** — is a powerful, open-source object-relational database system (ORDBMS). It supports many modern features and SQL standards.
 
-_**Основные характеристики PostgreSQL:**_
+_**Key Features of PostgreSQL:**_
 
-1. **Открытый исходный код**: PostgreSQL распространяется под лицензией PostgreSQL, которая позволяет свободно использовать, изменять и распространять базу данных.
+1. **Open Source**: PostgreSQL is distributed under the PostgreSQL license, allowing free use, modification, and distribution of the database.
 
-2. **Совместимость со стандартами**: PostgreSQL поддерживает полный набор функций стандарта SQL и добавляет дополнительные возможности, такие как индексирование полнотекстового поиска, массивы, таблицы с наследованием и др.
+2. **Standard Compliance**: PostgreSQL supports the full set of SQL standard features and adds additional capabilities such as full-text search indexing, arrays, table inheritance, etc.
 
-3. **Расширяемость**: PostgreSQL может быть легко расширена за счет пользовательских функций, агрегатов, типов данных и операторов.
+3. **Extensibility**: PostgreSQL can be easily extended with custom functions, aggregates, data types, and operators.
 
-4. **Продвинутое управление транзакциями**: PostgreSQL поддерживает ACID (Atomicity, Consistency, Isolation, Durability), обеспечение высокой надежности данных.
+4. **Advanced Transaction Management**: PostgreSQL supports ACID (Atomicity, Consistency, Isolation, Durability), ensuring high data reliability.
 
-5. **Поддержка JSON**: PostgreSQL имеет мощные встроенные функции для работы с JSON и JSONB, что делает его подходящим для хранения гибких и сложных документов.
-
-6.**Масштабируемость и производительность**: PostgreSQL поддерживает широкий диапазон функций, которые позволяют масштабировать и оптимизировать производительность, включая индексы, репликацию, шардинг (разделение данных) и параллельное выполнение запросов.
+5. **JSON Support**: PostgreSQL has powerful built-in functions for working with JSON and JSONB, making it suitable for storing flexible and complex documents.

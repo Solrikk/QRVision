@@ -128,7 +128,7 @@ if decoded_objects:
         qr_data = obj.data.decode('utf-8')
         qr_data_list.append(qr_data)
 ```
-8. Декодированные данные QR-кода сохраняются в базу данных при помощи **S`QLAlchemy`**:
+8. Декодированные данные QR-кода сохраняются в базу данных при помощи **`SQLAlchemy`**:
 
 ```python
         qr_data_entry = QRData(data=qr_data)

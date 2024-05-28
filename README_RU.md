@@ -105,6 +105,59 @@ image = Image.open(io.BytesIO(contents))
 image_np = np.array(image)
 ```
 
+6. Сервер производит серию предобработок на изображении для улучшения качества чтения QR-кодов. Предобработка выполняется функцией preprocess_image в нескольких попыток:
+
+```python
+attempts = 12
+decoded_objects = []
+for attempt in range(attempts):
+    processed_image = preprocess_image(image_np, attempt)
+    decoded_objects = decode(Image.fromarray(processed_image))
+    if decoded_objects:
+        break
+```
+7. Библиотека pyzbar используется для распознавания и декодирования QR-кодов на предобработанных изображениях:
+
+```python
+if decoded_objects:
+    qr_data_list = []
+    image_draw = ImageDraw.Draw(image)
+    for obj in decoded_objects:
+        qr_data = obj.data.decode('utf-8')
+        qr_data_list.append(qr_data)
+```
+8. Декодированные данные QR-кода сохраняются в базу данных при помощи SQLAlchemy:
+
+```python
+        qr_data_entry = QRData(data=qr_data)
+        db_session.add(qr_data_entry)
+        db_session.commit()
+```
+
+9. Сервер создает метки на исходном изображении для отображения местоположения QR-кодов, используя OpenCV:
+
+```python
+        points = obj.polygon
+        if len(points) == 4:
+            pts = np.array(points, dtype=np.int32)
+            cv2.polylines(image_np, [pts], isClosed=True, color=(0, 255, 0), thickness=2)
+            text_position = (points[0].x, points[0].y - 10)
+            image_draw.text(text_position, f"QR", fill=(255, 0, 0))
+```
+
+10. На клиентской стороне отображается alert с результатами сканирования QR-кодов:
+
+```javascript
+.then((data) => {
+        alert('Данные QR-кода: ' + data.data);
+        canvas.style.display = 'none';
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        canvas.style.display = 'none';
+    });
+```
+
 ## Процесс сканирования QR-кодов:
 
 ### 7. **База данных:**

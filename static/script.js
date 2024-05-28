@@ -3,7 +3,7 @@ const captureBtn = document.getElementById('captureBtn');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 360 } })
+navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })
     .then(stream => {
         video.srcObject = stream;
     })
@@ -13,6 +13,8 @@ navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 360 } })
 
 captureBtn.addEventListener('click', () => {
     setTimeout(() => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
         canvas.style.display = 'block';
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 

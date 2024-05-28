@@ -1,13 +1,22 @@
 from flask import Flask, request, jsonify, render_template
 from pyzbar.pyzbar import decode
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
+from PIL import Image, ImageDraw
 import io
-import cv2
 import numpy as np
 import base64
-import csv
+import cv2
+from models import init_db, db_session, QRData
 
 app = Flask(__name__)
+app.config[
+    'SQLALCHEMY_DATABASE_URI'] = "postgresql://neondb_owner:jHdqIzbMG43S@ep-tight-poetry-a51ypzfn.us-east-2.aws.neon.tech/neondb?sslmode=require&options=project%3Dep-tight-poetry-a51ypzfn"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+init_db()
+
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+  db_session.remove()
 
 
 def preprocess_image(image_np, attempt):
@@ -33,12 +42,16 @@ def preprocess_image(image_np, attempt):
                                  cv2.THRESH_BINARY, 11, 2)
   elif attempt == 8:
     gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
-    return cv2.Canny(gray, 100, 200)  # Edge detection
+    return cv2.Canny(gray, 50, 150)
   elif attempt == 9:
     gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
-    dilated = cv2.dilate(gray, np.ones((5, 5), np.uint8), iterations=1)
-    return cv2.erode(dilated, np.ones((5, 5), np.uint8),
-                     iterations=1)  # Dilation followed by erosion (closing)
+    dilated = cv2.dilate(gray, np.ones((3, 3), np.uint8), iterations=1)
+    return cv2.erode(dilated, np.ones((3, 3), np.uint8), iterations=1)
+  elif attempt == 10:
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    return cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                 cv2.THRESH_BINARY, 11, 2)
   return image_np
 
 
@@ -74,6 +87,10 @@ def scan_qr():
         qr_data = obj.data.decode('utf-8')
         qr_data_list.append(qr_data)
 
+        qr_data_entry = QRData(data=qr_data)
+        db_session.add(qr_data_entry)
+        db_session.commit()
+
         points = obj.polygon
         if len(points) == 4:
           pts = np.array(points, dtype=np.int32)
@@ -90,15 +107,6 @@ def scan_qr():
 
       _, buffer = cv2.imencode('.png', image_np)
       encoded_image = io.BytesIO(buffer).getvalue()
-
-      with open("qr_data.txt", "a") as file:
-        for idx, qr_data in enumerate(qr_data_list):
-          file.write(f"Data: {qr_data}\n")
-
-      with open("qr_data.csv", "a", newline='') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        for idx, qr_data in enumerate(qr_data_list):
-          csvwriter.writerow([qr_data])
 
       encoded_image_b64 = base64.b64encode(encoded_image).decode('utf-8')
 

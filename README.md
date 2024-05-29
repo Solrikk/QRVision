@@ -150,7 +150,7 @@ if decoded_objects:
             image_draw.text(text_position, f"QR", fill=(255, 0, 0))
 ```
 
-<img src="https://link-akyoning.replit.app/files/photo_2024-05-28_14-18-24.jpg">
+<img src="https://github.com/Solrikk/QRVision/blob/main/assets/photo_2024-05-28_14-18-24.jpg">
 
 10. На клиентской стороне отображается **`alert`** с результатами сканирования QR-кодов:
 
@@ -165,7 +165,7 @@ if decoded_objects:
     });
 ```
 
-<img src="https://link-akyoning.replit.app/files/photo_2024-05-28_14-42-14.jpg">
+<img src="https://github.com/Solrikk/QRVision/blob/main/assets/photo_2024-05-28_14-42-14.jpg">
 
 ### 7. **База данных:**
 Для хранения данных используем PostgreSQL, СУБД, которая позволяет надежно хранить данные и легко масштабироваться.

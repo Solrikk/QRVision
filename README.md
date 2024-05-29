@@ -153,8 +153,6 @@ if decoded_objects:
             image_draw.text(text_position, f"QR", fill=(255, 0, 0))
 ```
 
-<img src="https://github.com/Solrikk/QRVision/blob/main/assets/photo_2024-05-28_14-18-24.jpg">
-
 10. На клиентской стороне отображается **`alert`** с результатами сканирования QR-кодов:
 
 ```javascript

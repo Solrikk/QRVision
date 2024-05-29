@@ -53,21 +53,22 @@
 ├── replit.nix
 ├── models.py
 ```
-_Эта структура проекта организует код и ресурсы логичным образом, упрощая разработку и поддержку приложения._
+_This project structure organizes code and resources in a logical way, simplifying the development and maintenance of the application._
 
-- **`main.py`**: Основной backend файл, содержаший Flask маршруты и логику обработки изображений и QR-кодов.
-- **`templates/index.html`**: HTML-шаблон для главной страницы приложения.
-- **`pyproject.toml`**: Файл конфигурации для управления зависимостями проекта и настройки релевации кода (Pyright и Ruff).
+- **`main.py`**: The main backend file containing Flask routes and the logic for image and QR code processing.
+- **`templates/index.html`**: The HTML template for the application's main page.
+- **`pyproject.toml`**: Configuration file for project dependency management and code linting setup (Pyright and Ruff).
+
 ________
 
-  - **OpenCV (Open Source Computer Vision Library)** — используется для выполнения различных задач, связанных с обработкой изображений и распознаванием QR-кодов. OpenCV является мощным инструментом для компьютерного зрения и обработки изображений, предоставляющим широкий спектр функций и модулей, включая фильтрацию, преобразование формы, распознавание объектов и многое другое. Благодаря богатому набору возможностей, OpenCV позволяет эффективно обрабатывать изображения для улучшения качества сканирования и точности распознавания QR-кодов.
+  - **OpenCV (Open Source Computer Vision Library)** is used for performing various tasks related to image processing and QR code recognition. OpenCV is a powerful tool for computer vision and image processing, providing a wide range of functions and modules, including filtering, shape transformation, object recognition, and more. Thanks to its rich feature set, OpenCV enables efficient image processing to improve scanning quality and QR code recognition accuracy.
 
-_Пример работы OpenCV:_
+_Example of OpenCV in action:_
 <img src="https://pbs.twimg.com/media/C2iLN6iW8AEbk5D.jpg:large">
 
-## _Процесс сканирования QR-кодов:_
+## _QR Code Scanning Process:_
 
-1. При загрузке страницы запускается скрипт, который запрашивает доступ к веб-камере пользователя:
+1. When the page loads, a script is executed to request access to the user's webcam:
 
 ```javascript
 navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })
@@ -75,7 +76,7 @@ navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })
         video.srcObject = stream;
     })
     .catch(err => {
-        console.error("Ошибка доступа к камере: ", err);
+        console.error("Error accessing camera: ", err);
     });
 ```
 

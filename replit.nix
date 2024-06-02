@@ -1,5 +1,7 @@
 { pkgs }: {
   deps = [
+    pkgs.libGLU
+    pkgs.libGL
     pkgs.postgresql
     pkgs.glibcLocales
     pkgs.zbar

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>БД - QRVision</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Файлы БД</h1>
+        <div class="header">
+            <a href="/admin">Главная</a>
+        </div>
+        <h2>Файлы для загрузки</h2>
+        <table class="info-table">
+            <tr>
+                <th>Владелец</th>
+                <th>Файлы</th>
+            </tr>
+            <tr>
+                <td>Оператор-1</td>
+                <td>
+                    <ul class="file-list compact">
+                        {% for file in files %}
+                        <li class="file-item compact" onclick="downloadFile('{{ file }}')">{{ file }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        function downloadFile(filename) {
+            const a = document.createElement('a');
+            a.href = `/download/${filename}`;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+
+</html>

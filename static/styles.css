@@ -1,63 +1,257 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900);
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400");
+
+body,
+html {
+  overflow-x: hidden !important;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #2c3e50; /* Темный фон для промышленного вида */
-    color: #ecf0f1; /* Светлый цвет текста для контраста */
+  background-color: #212121;
+  background-image: linear-gradient(270deg, #31323a, #1f1a1b);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 1.45;
+  color: #eee;
+  color: rgba(255, 255, 255, .85);
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.d-flex {
+  display: flex;
+  gap: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 45px;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  color: #eee;
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+.logo {
+  font-size: 24px;
+}
+
+.user-panel a {
+  margin-left: 10px;
+  color: #eee;
+  text-decoration: none;
+  transition: color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 0 0px transparent;
+}
+
+.user-panel a:hover {
+  text-decoration: underline;
+  color: #c72cf2;
+  box-shadow: 0 2px 15px rgba(199, 44, 242, 0.4);
 }
 
 h1 {
-    color: #ecf0f1;
-    margin-bottom: 50px;
+  font-size: 3.2em;
+  font-weight: 100;
+  text-transform: uppercase;
+  margin: 0 0 20px 0;
+  text-shadow: 0 0 10px #fc5c7d;
 }
 
-#video {
-    border: 2px solid #16a085; /* Кирпичный цвет рамки */
-    border-radius: 8px;
-    margin-bottom: 30px;
-    width: 640px; /* Уменьшение ширины видео */
-    height: 360px; /* Уменьшение высоты видео */
+h2 {
+  font-size: 2.4em;
+  font-weight: 100;
+  margin: 0 0 20px 0;
+  text-shadow: 0 0 10px #fc5c7d;
 }
 
+p {
+  font-size: 1.2em;
+  font-weight: 300;
+  line-height: 1.5;
+  margin: 0 0 20px 0;
+}
+
+.cta-button,
+#submitCode,
 #captureBtn {
-    display: inline-block;
-    padding: 15px 25px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #ecf0f1;
-    background-color: #16a085; /* Цвет кнопки */
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 25px;
+  font-size: 18px;
+  color: #fff;
+  background-color: blueviolet;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(199, 44, 242, 0.3);
 }
 
+.cta-button:hover,
+#submitCode:hover,
 #captureBtn:hover {
-    background-color: #1abc9c; /* Цвет при наведении */
-    transform: scale(1.05);
+  background-color: #7a1ea1;
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(199, 44, 242, 0.5);
 }
 
+#accessCode {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  border: 2px solid #2980b9;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+#accessCode:focus {
+  border-color: #3498db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+.file-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.file-item {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #2980b9;
+  color: #ecf0f1;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+}
+
+.file-item:hover {
+  background-color: #3498db;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#video,
 #canvas {
-    display: none;
-    border: 2px solid #16a085;
-    border-radius: 8px;
-    margin-top: 20px;
-    width: 640px;
-    height: 360px;
+  width: 100%;
+  max-width: 640px;
+  border: 4px solid #b86928;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.qr-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 80px; 
+  margin: 20px auto;
+  border-radius: 10px;
+  background-color: #b86928;
+  color: #ecf0f1;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
 }
 
 @media (max-width: 800px) {
-    #video, #canvas {
-        width: 100%;
-        height: auto;
-    }
+  #video,
+  #canvas {
+    width: 100%;
+    height: auto;
+  }
 
-    #captureBtn {
-        width: 100%;
-        padding: 15px 0;
-    }
+  #captureBtn {
+    width: 100%;
+    padding: 15px 0;
+  }
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.info-table th,
+.info-table td {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.info-table th {
+  background-color: #2980;
+  color: #fff;
+}
+
+.info-table td {
+  background-color: #fff;
+  color: #000;
+}
+
+.header a, .button {
+  display: inline-block;
+  margin: 10px 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: blueviolet;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(199, 44, 242, 0.3);
+}
+
+.header a:hover, .button:hover {
+  background-color: #7a1ea1;
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(199, 44, 242, 0.5);
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - QRVision</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Администратор</h1>
+        <div class="header">
+            <a href="/admin">Главная</a>
+            <a href="/db-view">БД</a>
+        </div>
+        <h2>Видео оператора</h2>
+        <img id="operatorStream" width="640" height="360" alt="Operator stream will appear here">
+    </div>
+    <script>
+        function downloadFile(filename) {
+            const a = document.createElement('a');
+            a.href = `/download/${filename}`;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        const img = document.getElementById('operatorStream');
+        const ws = new WebSocket('ws://' + window.location.host + '/stream');
+        ws.onmessage = (event) => {
+            const blob = event.data;
+            const url = URL.createObjectURL(blob);
+            img.src = url;
+        };
+    </script>
+</body>
+
+</html>

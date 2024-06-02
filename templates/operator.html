@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRVision Operator</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="qr-counter">
+            <span>Отсканировано:</span>  
+            <span id="qrCount">0</span>
+        </div>
+        <h1>Оператор-1</h1>
+        <video id="video" width="640" height="360" autoplay></video>
+        <button id="captureBtn">Сканировать</button>
+        <p id="processingStatus" style="display:none;">Идет обработка...</p>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>

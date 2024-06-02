@@ -1,97 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QRVision</title>
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
-    <style>
-        body {
-            background: linear-gradient(to bottom right, #2c3e50, #1abc9c);
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            border-radius: 15px;
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .header {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 5px rgba(20, 20, 20, 0.8);
-        }
-
-        #video, #canvas {
-            border: 4px solid #16a085;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        #captureBtn {
-            padding: 15px 25px;
-            font-size: 18px;
-            font-weight: bold;
-            background-color: #16a085;
-            color: #ecf0f1;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-        }
-
-        #captureBtn:hover {
-            background-color: #1abc9c;
-            transform: scale(1.1);
-        }
-
-        .profile-circle, .qr-count-circle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background-color: #16a085;
-            color: #ecf0f1;
-            font-size: 1.2rem;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-    </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="profile-circle">
-                <span>Профиль</span>
-            </div>
-            <div class="qr-count-circle">
-                <span id="qrCount">0</span>
-            </div>
-        </div>
-        <h1>QRVision</h1>
-        <video id="video" width="640" height="360" autoplay></video>
-        <button id="captureBtn">Сканировать</button>
-        <canvas id="canvas" width="640" height="360"></canvas>
+        <h1>Введите код доступа</h1>
+        <input type="password" id="accessCode" placeholder="Введите код">
+        <button id="submitCode">Войти</button>
     </div>
-    <script src="/static/script.js"></script>
+    <script src="/static/access.js"></script>
 </body>
 </html>

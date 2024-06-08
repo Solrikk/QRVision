@@ -80,9 +80,9 @@ navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })
     });
 ```
 
-2. Видеопоток с веб-камеры отображается внутри элемента **`<video>`**, предоставляя пользователю возможность проверить корректность ракурса и положения QR-кода перед сканированием. Этот элемент находится в центре страницы для удобства пользователя.
+2. The video stream from the webcam is displayed inside the <video> element, allowing the user to check the correct angle and position of the QR code before scanning. This element is placed in the center of the page for user convenience.
 
-3. Оператор нажимает кнопку "Сканировать QR-код". Это действие инициирует захват текущего изображения с веб-камеры и его отрисовку на элементе **`<canvas>`**:
+3. The operator clicks the "Scan QR code" button. This action starts capturing the current image from the webcam and drawing it on the <canvas> element.
 
 ```javascript
 captureBtn.addEventListener('click', () => {

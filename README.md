@@ -56,6 +56,8 @@ Open your web browser and navigate to http://127.0.0.1:5000. You should see the 
 -  Click the "Scan QR Code" button.
 -  The captured image will be sent to the backend for processing.
 
+<img src="https://github.com/Solrikk/QRVision/blob/main/assets/photo/1fbf8bf5b.jpg" width="65%" /> 
+
 Additional Notes
 - Admin and Operator Access Codes:
  -  Use the code **1111** to access the operator interface.

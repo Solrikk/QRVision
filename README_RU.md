@@ -1,95 +1,99 @@
 <p align="center">
-  <img src="https://github.com/Solrikk/QRVision/blob/main/assets/photo/scanner.png" alt="Logo" width="300">
+  <img src="https://github.com/Solrikk/QRVision/blob/main/assets/photo/scanner.png" alt="Логотип" width="300">
 </p>
 
-<div align="center"> <h3> <a href="https://github.com/Solrikk/QRVision/blob/main/README.md">⭐English⭐</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_RU.md">Russian</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_GE.md">German</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_JP.md">Japanese</a> | <a href="README_KR.md">Korean</a> | <a href="README_CN.md">Chinese</a> </h3> </div>
+<div align="center"> <h3> <a href="https://github.com/Solrikk/QRVision/blob/main/README.md">Английский</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_RU.md">⭐Русский⭐</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_GE.md">Немецкий</a> | <a href="https:///Solrikk/QRVision/blob/main/README_JP.md">Японский</a> | <a href="README_KR.md">Корейский</a> | <a href="README_CN.md">Китайский</a> </h3> </div>
 
 -----------------
 
-**`QRVision`** — is a web service for scanning QR codes, where the frontend interacts with an operator to capture an image through the camera, and the backend processes this image and tries to extract data from the QR codes into a database.
+**`QRVision`** — это веб-сервис для сканирования QR-кодов, где фронтенд взаимодействует с оператором для захвата изображения через камеру, а бекенд обрабатывает это изображение и пытается извлечь данные из QR-кодов в базу данных.
 
-## ⚠️ Getting Started with QRVision: ⚠️
-This section is meant to introduce you to the basics of getting started with the "QRVision" project. Let's go through the details step-by-step:
+## ⚠️ Начало работы с QRVision: ⚠️
+Этот раздел предназначен для того, чтобы познакомить вас с основами работы с проектом "QRVision". Давайте пройдем через детали пошагово:
 
-1. Python 3.10: Make sure you have Python 3.10 installed on your machine. You can download it from the official Python website.
-2. Node.js: Ensure you have Node.js installed for managing frontend dependencies. Download it from the Node.js website.
-3. Poetry: Install Poetry, which is used for managing Python dependencies. You can install it by running:
+1. Python 3.10: Убедитесь, что у вас установлена версия Python 3.10. Вы можете скачать её с официального сайта Python.
+2. Node.js: Убедитесь, что у вас установлен Node.js для управления зависимостями фронтенда. Скачайте его с сайта Node.js.
+3. Poetry: Установите Poetry для управления зависимостями Python. Вы можете установить его, выполнив следующую команду:
 
-**_Setting Up the Backend:_**
+**_Настройка бекенда:_**
 
 ```Shell Script
 curl -sSL https://install.python-poetry.org | python3 -
 ```
-## Setting Up the Backend
-1. Clone the repository:
+## Настройка бекенда
+1. Клонируйте репозиторий:
 
 ```Shell Script
 git clone https://github.com/Solrikk/QRVision.git
 cd QRVision
 ```
-2. Install Python dependencies:
+2. Установите зависимости Python:
 
 ```Shell Script
 poetry install
 ```
 
-**_Setting Up the Frontend:_**
+**_Настройка фронтенда:_**
 
-1. Navigate to the static directory:
+1. Перейдите в директорию static:
 ```Shell Script
 cd static
 ```
 
-2. Install Node.js dependencies (if any, otherwise skip):
+2. Установите зависимости Node.js (если есть, иначе пропустите):
 ```Shell Script
 npm install
 ```
-3. Serve the frontend (if needed, otherwise skip):
-There are no specific commands for serving frontend files here since Flask serves the static files. Ensure Flask is running to serve the frontend.
+3. Запустите фронтенд (если нужно, иначе пропустите):
+Здесь нет специальных команд для запуска фронтенд файлов, поскольку Flask обслуживает статические файлы. Убедитесь, что Flask запущен для обслуживания фронтенда.
 
-**_Running the Application:_**
-1. Access the application:
-Open your web browser and navigate to http://127.0.0.1:5000. You should see the main application interface.
-2. Using the QR Scanner:
--  Allow access to your webcam when prompted.
--  Position a QR code within the view of your webcam.
--  Click the "Scan QR Code" button.
--  The captured image will be sent to the backend for processing.
+**_Запуск приложения:_**
+1. Доступ к приложению:
+Откройте ваш веб-браузер и перейдите по адресу http://127.0.0.1:5000. Вы должны увидеть основное интерфейс приложения.
+2. Использование QR-сканера:
+-  Разрешите доступ к вашей веб-камере, когда будет предложено.
+-  Разместите QR-код в пределах видимости вашей веб-камеры.
+-  Нажмите кнопку "Сканировать QR-код".
+-  Захваченное изображение будет отправлено на сервер для обработки.
 
-Additional Notes
-- Admin and Operator Access Codes:
- -  Use the code **1111** to access the operator interface.
- -  Use the code **2222** to access the admin interface.
- -  These can be adjusted in access.js if needed.
+<img src="https://github.com/Solrikk/QRVision/blob/main/assets/photo/1fbf8bf5b.jpg" width="65%" /> 
 
-## Features ⚙️
+Дополнительные заметки
+- Коды доступа для администратора и оператора:
+ -  Используйте код **1111** для доступа к интерфейсу оператора.
+ -  Используйте код **2222** для доступа к интерфейсу администратора.
+ -  Эти коды могут быть изменены в файле access.js при необходимости.
 
-### _Technology Stack:_
+<img src="https://github.com/Solrikk/QRVision/blob/main/assets/photo/560bce24.jpg" width="65%" /> 
 
-### _Backend:_
+## Функции ⚙️
 
-- **`Python`**: The main programming language used for implementing the server-side of the project.
-- **`Flask`**: A lightweight yet powerful web framework used to create and deploy web applications. Flask provides all the necessary tools and libraries for building server-side functionalities and is based on the principle of extensibility.
-- **`OpenCV`**: A computer vision library used for image processing. We use it for performing various image transformation operations that aid in improving QR code recognition, including noise filtering and distortion correction.
-- **`pyzbar`**: A specialized library for decoding QR codes. It provides accurate and fast reading of information from QR codes, which is critically important.
-- **`scikit-learn`**: One of the leading machine learning libraries used for versatile data processing. In our project, it is used to analyze text using the TF-IDF (Term Frequency-Inverse Document Frequency) algorithm, which allows efficient analysis and classification of text data.
-- **`numpy`**: A high-performance library for numerical computations that works with multi-dimensional arrays and matrices. It provides numerous mathematical functions, making it indispensable for data processing and performing complex calculations.
+### _Технологический стек:_
 
-### _Frontend:_
+### _Бекенд:_
 
-- **`HTML`**: A markup language used to create the structure of the web page. With it, you can define various elements of the page such as headings, paragraphs, forms, and buttons.
-- **`CSS`**: A stylesheet language used to style HTML elements. You can set the color, fonts, sizes, paddings, and other visual characteristics of web page elements.
-- **`JavaScript`**: A programming language used to add interactivity to the web page. In this project, it is necessary for managing interactions with the operator, such as capturing an image from the camera and sending it to the server.
+- **`Python`**: Основной язык программирования, используемый для реализации серверной части проекта.
+- **`Flask`**: Легковесный, но мощный веб-фреймворк для создания и развертывания веб-приложений. Flask предоставляет все необходимые инструменты и библиотеки для создания серверных функций и основан на принципе расширяемости.
+- **`OpenCV`**: Библиотека компьютерного зрения, используемая для обработки изображений. Мы используем её для выполнения различных операций преобразования изображений, помогающих улучшить распознавание QR-кодов, включая фильтрацию шумов и коррекцию искажений.
+- **`pyzbar`**: Специализированная библиотека для декодирования QR-кодов. Она обеспечивает точное и быстрое считывание информации с QR-кодов, что имеет критически важное значение.
+- **`scikit-learn`**: Одна из ведущих библиотек машинного обучения, используемая для универсальной обработки данных. В нашем проекте, она используется для анализа текста с помощью алгоритма TF-IDF (Term Frequency-Inverse Document Frequency), который позволяет эффективно анализировать и классифицировать текстовые данные.
+- **`numpy`**: Высокопроизводительная библиотека для численных вычислений, работающая с многомерными массивами и матрицами. Она предоставляет множество математических функций, делая её незаменимой для обработки данных и выполнения сложных расчетов.
 
-### _Additional Dependencies:_
+### _Фронтенд:_
 
-- **`Poetry`**: A tool for dependency management and creating isolated virtual environments in Python. Poetry simplifies the installation and updating of packages, as well as managing versions, ensuring consistency and reproducibility of environments.
-- **`pyright`**: A fast and powerful static type analyzer for Python that helps identify type errors before the code execution, thereby increasing the reliability and quality of the software.
-- **`ruff`**: A linter designed to improve code quality and maintain the style. Ruff helps identify and fix stylistic errors, ensuring consistency and code cleanliness according to the set standards.
+- **`HTML`**: Язык разметки, используемый для создания структуры веб-страницы. С его помощью можно определить различные элементы страницы, такие как заголовки, абзацы, формы и кнопки.
+- **`CSS`**: Язык таблиц стилей, используемый для стилизации элементов HTML. С его помощью можно задать цвет, шрифты, размеры, отступы и другие визуальные характеристики элементов веб-страницы.
+- **`JavaScript`**: Язык программирования, используемый для добавления интерактивности на веб-страницу. В этом проекте он необходим для управления взаимодействием с оператором, например, для захвата изображения с камеры и отправки его на сервер.
 
-### _Deployment:_
+### _Дополнительные зависимости:_
 
-- **`Gunicorn`**: A high-performance WSGI HTTP server for running Flask applications in a production environment. Gunicorn provides scalability and reliability for your web application, allowing it to handle a large number of simultaneous requests and ensuring stable service operation.
+- **`Poetry`**: Инструмент для управления зависимостями и создания изолированных виртуальных сред в Python. Poetry упрощает установку и обновление пакетов, а также управление версиями, обеспечивая консистентность и воспроизводимость сред.
+- **`pyright`**: Быстрый и мощный статический анализатор типов для Python, который помогает выявлять ошибки типов до выполнения кода, тем самым повышая надежность и качество программного обеспечения.
+- **`ruff`**: Линтер, предназначенный для улучшения качества кода и поддержания стиля. Ruff помогает выявлять и исправлять стилистические ошибки, обеспечивая консистентность и чистоту кода в соответствии с установленными стандартами.
+
+### _Развертывание:_
+
+- **`Gunicorn`**: Высокопроизводительный WSGI HTTP сервер для запуска Flask приложений в производственной среде. Gunicorn обеспечивает масштабируемость и надежность вашего веб-приложения, позволяя ему обрабатывать большое количество одновременных запросов и обеспечивать стабильную работу сервиса.
 
 ### _File Structure:_
 

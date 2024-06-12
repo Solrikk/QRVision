@@ -58,9 +58,9 @@ Open your web browser and navigate to http://127.0.0.1:5000. You should see the 
 
 Additional Notes
 - Admin and Operator Access Codes:
--  Use the code **1111** to access the operator interface.
--  Use the code **2222** to access the admin interface.
--  These can be adjusted in access.js if needed.
+ -  Use the code **1111** to access the operator interface.
+ -  Use the code **2222** to access the admin interface.
+ -  These can be adjusted in access.js if needed.
 
 ## Features ⚙️
 
@@ -134,9 +134,9 @@ navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })
     });
 ```
 
-2. Видеопоток с веб-камеры отображается внутри элемента **`<video>`**, предоставляя пользователю возможность проверить корректность ракурса и положения QR-кода перед сканированием. Этот элемент находится в центре страницы для удобства пользователя.
+2. The video stream from the webcam is displayed inside a **`<video>`** element, allowing the user to check the correct angle and position of the QR code before scanning. This element is placed in the center of the page for user convenience.
 
-3. Оператор нажимает кнопку "Сканировать QR-код". Это действие инициирует захват текущего изображения с веб-камеры и его отрисовку на элементе **`<canvas>`**:
+3. The operator clicks the "Scan QR Code" button. This action captures the current image from the webcam and draws it onto a **`<canvas>`** element.
 
 ```javascript
 captureBtn.addEventListener('click', () => {
@@ -147,7 +147,7 @@ captureBtn.addEventListener('click', () => {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 ```
 
-4. После рисования изображения на элементе <canvas>, оно конвертируется в **`Blob-формат`** и отправляется на серверный эндпоинт **`/scan-qr/`** с помощью **`Fetch API`**:
+4. After drawing the image onto the `<canvas>` element, it is converted to **`Blob format`** and sent to the server endpoint **`/scan-qr/`** using the **`Fetch API`**:
 ```javascript
     canvas.toBlob((blob) => {
         const formData = new FormData();
@@ -158,7 +158,7 @@ captureBtn.addEventListener('click', () => {
             body: formData
         })
 ```
-5. На сервере Flask обрабатывает этот запрос в эндпоинте **`/scan-qr/`**. Изображение сначала считывается и преобразуется в объект **`Pillow (PIL)`**:
+5. On the server, Flask processes this request at the **`/scan-qr/`** endpoint. The image is first read and converted into an object using **Pillow (PIL)**:
 
 ```python
 file = request.files['file']
@@ -167,7 +167,7 @@ image = Image.open(io.BytesIO(contents))
 image_np = np.array(image)
 ```
 
-6. Сервер производит серию предобработок на изображении для улучшения качества чтения QR-кодов. Предобработка выполняется функцией **`preprocess_image`** в нескольких попыток:
+6. The server performs several preprocessing steps on the image to improve the quality for reading QR codes. Preprocessing is done using a function called **`preprocess_image`** in multiple attempts:
 
 ```python
 attempts = 12
@@ -178,7 +178,7 @@ for attempt in range(attempts):
     if decoded_objects:
         break
 ```
-7. Библиотека **`pyzbar`** используется для распознавания и декодирования QR-кодов на предобработанных изображениях:
+7. The library **`pyzbar`** is used to recognize and decode QR codes from preprocessed images:
 
 ```python
 if decoded_objects:
@@ -188,15 +188,8 @@ if decoded_objects:
         qr_data = obj.data.decode('utf-8')
         qr_data_list.append(qr_data)
 ```
-8. Декодированные данные QR-кода сохраняются в базу данных при помощи **`SQLAlchemy`**:
 
-```python
-        qr_data_entry = QRData(data=qr_data)
-        db_session.add(qr_data_entry)
-        db_session.commit()
-```
-
-9. Сервер создает метки на исходном изображении для отображения местоположения QR-кодов, используя **`OpenCV`**:
+8. The server creates markers on the original image to show the location of the QR codes using **`OpenCV`**:
 
 ```python
         points = obj.polygon
@@ -209,7 +202,7 @@ if decoded_objects:
 
 <img src="https://link-akyoning.replit.app/files/photo_2024-05-28_14-18-24.jpg">
 
-10. На клиентской стороне отображается **`alert`** с результатами сканирования QR-кодов:
+9. An **`alert`** is displayed on the client side with the QR code scanning results:
 
 ```javascript
 .then((data) => {
@@ -223,27 +216,3 @@ if decoded_objects:
 ```
 
 <img src="https://link-akyoning.replit.app/files/photo_2024-05-28_14-42-14.jpg">
-
-### 7. **База данных:**
-Для хранения данных используем PostgreSQL, СУБД, которая позволяет надежно хранить данные и легко масштабироваться.
- - SQLAlchemy ORM используется для взаимодействия с базой данных. Он упрощает работу с данными и позволяет писать код, независимый от конкретной СУБД.
- - Модели определяются в `models.py`. Они представляют собой схемы таблиц базы данных и позволяют взаимодействовать с данными через классы Python.
-
-**`PostgreSQL`** — это мощная, объектно-реляционная база данных с открытым исходным кодом (ORDBMS). Она поддерживает множество современных функций и стандартов SQL.
-
-_**Основные характеристики PostgreSQL:**_
-
-1. **Открытый исходный код**: PostgreSQL распространяется под лицензией PostgreSQL, которая позволяет свободно использовать, изменять и распространять базу данных.
-
-2. **Совместимость со стандартами**: PostgreSQL поддерживает полный набор функций стандарта SQL и добавляет дополнительные возможности, такие как индексирование полнотекстового поиска, массивы, таблицы с наследованием и др.
-
-3. **Расширяемость**: PostgreSQL может быть легко расширена за счет Операторских функций, агрегатов, типов данных и операторов.
-
-4. **Продвинутое управление транзакциями**: PostgreSQL поддерживает ACID (Atomicity, Consistency, Isolation, Durability), обеспечение высокой надежности данных.
-
-5. **Поддержка JSON**: PostgreSQL имеет мощные встроенные функции для работы с JSON и JSONB, что делает его подходящим для хранения гибких и сложных документов.
-
-6.**Масштабируемость и производительность**: PostgreSQL поддерживает широкий диапазон функций, которые позволяют масштабировать и оптимизировать производительность, включая индексы, репликацию, шардинг (разделение данных) и параллельное выполнение запросов.
-5. **Поддержка JSON**: PostgreSQL имеет мощные встроенные функции для работы с JSON и JSONB, что делает его подходящим для хранения гибких и сложных документов.
-
-6.**Масштабируемость и производительность**: PostgreSQL поддерживает широкий диапазон функций, которые позволяют масштабировать и оптимизировать производительность, включая индексы, репликацию, шардинг (разделение данных) и параллельное выполнение запросов.

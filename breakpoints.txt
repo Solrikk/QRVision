@@ -1,0 +1,12 @@
+{
+  "files": {
+    "templates/index.html": [
+      {
+        "id": "76cb134f-d5cb-4b45-82e2-399885f111e5",
+        "line": 1,
+        "version": 99,
+        "index": 0
+      }
+    ]
+  }
+}

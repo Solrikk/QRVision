@@ -6,17 +6,50 @@
 
 -----------------
 
-**`QRVision`** —  is a web service for scanning QR codes, where the frontend interacts with an operator to capture an image through the camera, and the backend processes this image and tries to extract data from the QR codes into a database.
-
-## Main Components
-
-### _Technology Stack:_
-
-### _Backend:_
-
 **`QRVision`** — is a web service for scanning QR codes, where the frontend interacts with an operator to capture an image through the camera, and the backend processes this image and tries to extract data from the QR codes into a database.
 
-## Main Components
+## ⚠️ Getting Started with QRVision: ⚠️
+This section is meant to introduce you to the basics of getting started with the "QRVision" project. Let's go through the details step-by-step:
+
+1. Python 3.10: Make sure you have Python 3.10 installed on your machine. You can download it from the official Python website.
+2. Node.js: Ensure you have Node.js installed for managing frontend dependencies. Download it from the Node.js website.
+3. Poetry: Install Poetry, which is used for managing Python dependencies. You can install it by running:
+
+**_Setting Up the Backend:_**
+
+```Shell Script
+curl -sSL https://install.python-poetry.org | python3 -
+```
+## Setting Up the Backend
+1. Clone the repository:
+
+```Shell Script
+git clone https://github.com/Solrikk/QRVision.git
+cd QRVision
+```
+2. Install Python dependencies:
+
+```Shell Script
+poetry install
+```
+
+**_Setting Up the Frontend:_**
+
+1. Navigate to the static directory:
+```Shell Script
+cd static
+```
+
+2. Install Node.js dependencies (if any, otherwise skip):
+```Shell Script
+npm install
+```
+3. Serve the frontend (if needed, otherwise skip):
+There are no specific commands for serving frontend files here since Flask serves the static files. Ensure Flask is running to serve the frontend.
+
+**_Running the Application:_
+
+## Features ⚙️
 
 ### _Technology Stack:_
 
@@ -28,7 +61,6 @@
 - **`pyzbar`**: A specialized library for decoding QR codes. It provides accurate and fast reading of information from QR codes, which is critically important.
 - **`scikit-learn`**: One of the leading machine learning libraries used for versatile data processing. In our project, it is used to analyze text using the TF-IDF (Term Frequency-Inverse Document Frequency) algorithm, which allows efficient analysis and classification of text data.
 - **`numpy`**: A high-performance library for numerical computations that works with multi-dimensional arrays and matrices. It provides numerous mathematical functions, making it indispensable for data processing and performing complex calculations.
-- **`SQLAlchemy`**: An Object-Relational Mapping (ORM) tool that simplifies database interactions. SQLAlchemy allows abstraction from the details of SQL queries, providing a convenient way to work with the database through an object-oriented interface.
 
 ### _Frontend:_
 

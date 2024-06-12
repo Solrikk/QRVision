@@ -47,7 +47,20 @@ npm install
 3. Serve the frontend (if needed, otherwise skip):
 There are no specific commands for serving frontend files here since Flask serves the static files. Ensure Flask is running to serve the frontend.
 
-**_Running the Application:_
+**_Running the Application:_**
+1. Access the application:
+Open your web browser and navigate to http://127.0.0.1:5000. You should see the main application interface.
+2. Using the QR Scanner:
+-  Allow access to your webcam when prompted.
+-  Position a QR code within the view of your webcam.
+-  Click the "Scan QR Code" button.
+-  The captured image will be sent to the backend for processing.
+
+Additional Notes
+- Admin and Operator Access Codes:
+-  Use the code **1111** to access the operator interface.
+-  Use the code **2222** to access the admin interface.
+-  These can be adjusted in access.js if needed.
 
 ## Features ⚙️
 
@@ -94,21 +107,22 @@ There are no specific commands for serving frontend files here since Flask serve
 ├── replit.nix
 ├── models.py
 ```
-_Эта структура проекта организует код и ресурсы логичным образом, упрощая разработку и поддержку приложения._
+_This project structure organizes code and resources logically, simplifying development and maintenance of the application._
 
-- **`main.py`**: Основной backend файл, содержаший Flask маршруты и логику обработки изображений и QR-кодов.
-- **`templates/index.html`**: HTML-шаблон для главной страницы приложения.
-- **`pyproject.toml`**: Файл конфигурации для управления зависимостями проекта и настройки релевации кода (Pyright и Ruff).
-________
+- **`main.py`**: The main backend file containing Flask routes and logic for image and QR code processing.
+- **`templates/index.html`**: An HTML template for the main page of the application.
+- **`pyproject.toml`**: A configuration file for managing project dependencies and code linting settings (Pyright and Ruff).
 
-  - **OpenCV (Open Source Computer Vision Library)** — используется для выполнения различных задач, связанных с обработкой изображений и распознаванием QR-кодов. OpenCV является мощным инструментом для компьютерного зрения и обработки изображений, предоставляющим широкий спектр функций и модулей, включая фильтрацию, преобразование формы, распознавание объектов и многое другое. Благодаря богатому набору возможностей, OpenCV позволяет эффективно обрабатывать изображения для улучшения качества сканирования и точности распознавания QR-кодов.
+___
 
-_Пример работы OpenCV:_
+- **OpenCV (Open Source Computer Vision Library)** — is used for performing various tasks related to image processing and QR code recognition. OpenCV is a powerful tool for computer vision and image processing, providing a wide range of functions and modules, including filtering, shape transformation, object recognition, and more. With its extensive capabilities, OpenCV enables efficient image processing to improve the quality of scanning and accuracy of QR code recognition.
+
+_Example of OpenCV in action:_
 <img src="https://pbs.twimg.com/media/C2iLN6iW8AEbk5D.jpg:large">
 
-## _Процесс сканирования QR-кодов:_
+## _The QR Code Scanning Process:_
 
-1. При загрузке страницы запускается скрипт, который запрашивает доступ к веб-камере пользователя:
+1. When the page loads, a script is initiated that requests access to the user's webcam:
 
 ```javascript
 navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })

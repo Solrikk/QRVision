@@ -2,74 +2,127 @@
   <img src="https://github.com/Solrikk/QRVision/blob/main/assets/photo/scanner.png" alt="Logo" width="300">
 </p>
 
-<div align="center"> <h3> <a href="https://github.com/Solrikk/QRVision/blob/main/README.md">English</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_RU.md">⭐Russian⭐</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_GE.md">German</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_JP.md">Japanese</a> | <a href="README_KR.md">Korean</a> | <a href="README_CN.md">Chinese</a> </h3> </div>
+<div align="center"> <h3> <a href="https://github.com/Solrikk/QRVision/blob/main/README.md">⭐English⭐</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_RU.md">Russian</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_GE.md">German</a> | <a href="https://github.com/Solrikk/QRVision/blob/main/README_JP.md">Japanese</a> | <a href="README_KR.md">Korean</a> | <a href="README_CN.md">Chinese</a> </h3> </div>
 
 -----------------
 
-**`QRVision`** — представляет собой веб-сервис для сканирования QR-кодов, где фронтенд взаимодействует с оператором для захвата изображения через камеру, а бэкенд обрабатывает это изображение и пытается извлечь данные из QR-кодов в базу данных.
+**`QRVision`** — is a web service for scanning QR codes, where the frontend interacts with an operator to capture an image through the camera, and the backend processes this image and tries to extract data from the QR codes into a database.
 
-## Основные компоненты
+## ⚠️ Getting Started with QRVision: ⚠️
+This section is meant to introduce you to the basics of getting started with the "QRVision" project. Let's go through the details step-by-step:
 
-### _Стек технологий:_
+1. Python 3.10: Make sure you have Python 3.10 installed on your machine. You can download it from the official Python website.
+2. Node.js: Ensure you have Node.js installed for managing frontend dependencies. Download it from the Node.js website.
+3. Poetry: Install Poetry, which is used for managing Python dependencies. You can install it by running:
+
+**_Setting Up the Backend:_**
+
+```Shell Script
+curl -sSL https://install.python-poetry.org | python3 -
+```
+## Setting Up the Backend
+1. Clone the repository:
+
+```Shell Script
+git clone https://github.com/Solrikk/QRVision.git
+cd QRVision
+```
+2. Install Python dependencies:
+
+```Shell Script
+poetry install
+```
+
+**_Setting Up the Frontend:_**
+
+1. Navigate to the static directory:
+```Shell Script
+cd static
+```
+
+2. Install Node.js dependencies (if any, otherwise skip):
+```Shell Script
+npm install
+```
+3. Serve the frontend (if needed, otherwise skip):
+There are no specific commands for serving frontend files here since Flask serves the static files. Ensure Flask is running to serve the frontend.
+
+**_Running the Application:_**
+1. Access the application:
+Open your web browser and navigate to http://127.0.0.1:5000. You should see the main application interface.
+2. Using the QR Scanner:
+-  Allow access to your webcam when prompted.
+-  Position a QR code within the view of your webcam.
+-  Click the "Scan QR Code" button.
+-  The captured image will be sent to the backend for processing.
+
+Additional Notes
+- Admin and Operator Access Codes:
+ -  Use the code **1111** to access the operator interface.
+ -  Use the code **2222** to access the admin interface.
+ -  These can be adjusted in access.js if needed.
+
+## Features ⚙️
+
+### _Technology Stack:_
 
 ### _Backend:_
 
-- **`Python`**: Основной язык программирования, используемый для реализации серверной части проекта.
-- **`Flask`**: Легковесный, но мощный веб-фреймворк, который используется для создания и развертывания веб-приложений. Flask предоставляет все необходимые инструменты и библиотеки для формирования функциональности серверной части, работая по принципу расширяемости.
-- **`OpenCV`**: Библиотека компьютерного зрения, применяемая для обработки изображений. Мы используем ее для выполнения различных операций преобразования изображений, что способствует улучшению распознавания QR-кодов, включая фильтрацию шума и коррекцию искажений.
-- **`pyzbar`**: Специализированная библиотека для декодирования QR-кодов. Она обеспечивает точное и быстрое считывание информации из QR-кодов, что является критически важным.
-- **`scikit-learn`**: Одна из ведущих библиотек машинного обучения, применяемая для разносторонней обработки данных. В нашем проекте она используется для анализа текста с помощью алгоритма TF-IDF (Term Frequency-Inverse Document Frequency), что позволяет эффективно анализировать и классифицировать текстовые данные.
-- **`numpy`**: Высокопроизводительная библиотека для численных вычислений, которая работает с многомерными массивами и матрицами. Библиотека обеспечивает множество математических функций, что делает её незаменимой для обработки данных и выполнения сложных вычислений.
-- **`SQLAlchemy`**: Объектно-реляционное отображение (ORM), упрощает взаимодействие с базой данных. SQLAlchemy позволяет абстрагироваться от деталей SQL-запросов, предоставляя удобный способ работы с базой данных через объектно-ориентированный интерфейс.
-- **`PostgreSQL`**: Мощная и масштабируемая система управления базами данных (СУБД). Используется PostgreSQL для надежного хранения QR-кодов и связанных данных, что обеспечивает высокую производительность и безопасность данных.
+- **`Python`**: The main programming language used for implementing the server-side of the project.
+- **`Flask`**: A lightweight yet powerful web framework used to create and deploy web applications. Flask provides all the necessary tools and libraries for building server-side functionalities and is based on the principle of extensibility.
+- **`OpenCV`**: A computer vision library used for image processing. We use it for performing various image transformation operations that aid in improving QR code recognition, including noise filtering and distortion correction.
+- **`pyzbar`**: A specialized library for decoding QR codes. It provides accurate and fast reading of information from QR codes, which is critically important.
+- **`scikit-learn`**: One of the leading machine learning libraries used for versatile data processing. In our project, it is used to analyze text using the TF-IDF (Term Frequency-Inverse Document Frequency) algorithm, which allows efficient analysis and classification of text data.
+- **`numpy`**: A high-performance library for numerical computations that works with multi-dimensional arrays and matrices. It provides numerous mathematical functions, making it indispensable for data processing and performing complex calculations.
 
 ### _Frontend:_
 
-- **`HTML`**: Язык разметки, используемый для создания структуры веб-страницы. С его помощью можно определить различные элементы страницы, такие как заголовки, абзацы, формы и кнопки.
-- **`CSS`**: Язык стилей, который используется для оформления HTML-элементов. С его помощью можно задать цвет, шрифты, размеры, отступы и другие визуальные характеристики элементов веб-страницы.
-- **`JavaScript`**: Язык программирования, который используется для добавления интерактивности на веб-страницу. В этом проекте он необходим для управления взаимодействием с оператором, например, для захвата изображения с камеры и его отправки на сервер.
+- **`HTML`**: A markup language used to create the structure of the web page. With it, you can define various elements of the page such as headings, paragraphs, forms, and buttons.
+- **`CSS`**: A stylesheet language used to style HTML elements. You can set the color, fonts, sizes, paddings, and other visual characteristics of web page elements.
+- **`JavaScript`**: A programming language used to add interactivity to the web page. In this project, it is necessary for managing interactions with the operator, such as capturing an image from the camera and sending it to the server.
 
-### _Дополнительные зависимости:_
+### _Additional Dependencies:_
 
-- **`Poetry`**: Инструмент для управления зависимостями и создания изолированных виртуальных окружений в Python. Poetry упрощает установку и обновление пакетов, а также управление версиями, обеспечивая согласованность и воспроизводимость окружений.
-- **`pyright`**: Быстрый и мощный статический анализатор типов для Python, который помогает выявлять ошибки типов еще до выполнения кода, тем самым повышая надежность и качество программного обеспечения.
-- **`ruff`**: Линтер, предназначенный для улучшения качества кода и соблюдения стиля. Ruff помогает обнаруживать и исправлять стилистические ошибки, обеспечивая единообразие и чистоту кода согласно заданным стандартам.
+- **`Poetry`**: A tool for dependency management and creating isolated virtual environments in Python. Poetry simplifies the installation and updating of packages, as well as managing versions, ensuring consistency and reproducibility of environments.
+- **`pyright`**: A fast and powerful static type analyzer for Python that helps identify type errors before the code execution, thereby increasing the reliability and quality of the software.
+- **`ruff`**: A linter designed to improve code quality and maintain the style. Ruff helps identify and fix stylistic errors, ensuring consistency and code cleanliness according to the set standards.
 
 ### _Deployment:_
 
-- **`Gunicorn`**: Высокопроизводительный WSGI HTTP сервер для запуска Flask-приложений в производственной среде. Gunicorn обеспечивает масштабируемость и надежность вашего веб-приложения, позволяя справляться с большим количеством одновременных запросов и обеспечивая стабильную работу сервиса.
+- **`Gunicorn`**: A high-performance WSGI HTTP server for running Flask applications in a production environment. Gunicorn provides scalability and reliability for your web application, allowing it to handle a large number of simultaneous requests and ensuring stable service operation.
 
-### _Файловая структура:_
+### _File Structure:_
 
 ```shell
 /app
 ├── .replit
 ├── static
-│   ├── script.js
-│   └── styles.css
+│   ├── script.js
+│   └── styles.css
 ├── main.py
 ├── pyproject.toml
 ├── templates
-│   └── index.html
+│   └── index.html
 ├── ...
 ├── replit.nix
 ├── models.py
 ```
-_Эта структура проекта организует код и ресурсы логичным образом, упрощая разработку и поддержку приложения._
+_This project structure organizes code and resources logically, simplifying development and maintenance of the application._
 
-- **`main.py`**: Основной backend файл, содержаший Flask маршруты и логику обработки изображений и QR-кодов.
-- **`templates/index.html`**: HTML-шаблон для главной страницы приложения.
-- **`pyproject.toml`**: Файл конфигурации для управления зависимостями проекта и настройки релевации кода (Pyright и Ruff).
-________
+- **`main.py`**: The main backend file containing Flask routes and logic for image and QR code processing.
+- **`templates/index.html`**: An HTML template for the main page of the application.
+- **`pyproject.toml`**: A configuration file for managing project dependencies and code linting settings (Pyright and Ruff).
 
-  - **OpenCV (Open Source Computer Vision Library)** — используется для выполнения различных задач, связанных с обработкой изображений и распознаванием QR-кодов. OpenCV является мощным инструментом для компьютерного зрения и обработки изображений, предоставляющим широкий спектр функций и модулей, включая фильтрацию, преобразование формы, распознавание объектов и многое другое. Благодаря богатому набору возможностей, OpenCV позволяет эффективно обрабатывать изображения для улучшения качества сканирования и точности распознавания QR-кодов.
+___
 
-_Пример работы OpenCV:_
+- **OpenCV (Open Source Computer Vision Library)** — is used for performing various tasks related to image processing and QR code recognition. OpenCV is a powerful tool for computer vision and image processing, providing a wide range of functions and modules, including filtering, shape transformation, object recognition, and more. With its extensive capabilities, OpenCV enables efficient image processing to improve the quality of scanning and accuracy of QR code recognition.
+
+_Example of OpenCV in action:_
 <img src="https://pbs.twimg.com/media/C2iLN6iW8AEbk5D.jpg:large">
 
-## _Процесс сканирования QR-кодов:_
+## _The QR Code Scanning Process:_
 
-1. При загрузке страницы запускается скрипт, который запрашивает доступ к веб-камере пользователя:
+1. When the page loads, a script is initiated that requests access to the user's webcam:
 
 ```javascript
 navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })
@@ -81,9 +134,9 @@ navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })
     });
 ```
 
-2. Видеопоток с веб-камеры отображается внутри элемента **`<video>`**, предоставляя пользователю возможность проверить корректность ракурса и положения QR-кода перед сканированием. Этот элемент находится в центре страницы для удобства пользователя.
+2. The video stream from the webcam is displayed inside a **`<video>`** element, allowing the user to check the correct angle and position of the QR code before scanning. This element is placed in the center of the page for user convenience.
 
-3. Оператор нажимает кнопку "Сканировать QR-код". Это действие инициирует захват текущего изображения с веб-камеры и его отрисовку на элементе **`<canvas>`**:
+3. The operator clicks the "Scan QR Code" button. This action captures the current image from the webcam and draws it onto a **`<canvas>`** element.
 
 ```javascript
 captureBtn.addEventListener('click', () => {
@@ -94,7 +147,7 @@ captureBtn.addEventListener('click', () => {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 ```
 
-4. После рисования изображения на элементе <canvas>, оно конвертируется в **`Blob-формат`** и отправляется на серверный эндпоинт **`/scan-qr/`** с помощью **`Fetch API`**:
+4. After drawing the image onto the `<canvas>` element, it is converted to **`Blob format`** and sent to the server endpoint **`/scan-qr/`** using the **`Fetch API`**:
 ```javascript
     canvas.toBlob((blob) => {
         const formData = new FormData();
@@ -105,7 +158,7 @@ captureBtn.addEventListener('click', () => {
             body: formData
         })
 ```
-5. На сервере Flask обрабатывает этот запрос в эндпоинте **`/scan-qr/`**. Изображение сначала считывается и преобразуется в объект **`Pillow (PIL)`**:
+5. On the server, Flask processes this request at the **`/scan-qr/`** endpoint. The image is first read and converted into an object using **Pillow (PIL)**:
 
 ```python
 file = request.files['file']
@@ -114,7 +167,7 @@ image = Image.open(io.BytesIO(contents))
 image_np = np.array(image)
 ```
 
-6. Сервер производит серию предобработок на изображении для улучшения качества чтения QR-кодов. Предобработка выполняется функцией **`preprocess_image`** в нескольких попыток:
+6. The server performs several preprocessing steps on the image to improve the quality for reading QR codes. Preprocessing is done using a function called **`preprocess_image`** in multiple attempts:
 
 ```python
 attempts = 12
@@ -125,7 +178,7 @@ for attempt in range(attempts):
     if decoded_objects:
         break
 ```
-7. Библиотека **`pyzbar`** используется для распознавания и декодирования QR-кодов на предобработанных изображениях:
+7. The library **`pyzbar`** is used to recognize and decode QR codes from preprocessed images:
 
 ```python
 if decoded_objects:
@@ -135,15 +188,8 @@ if decoded_objects:
         qr_data = obj.data.decode('utf-8')
         qr_data_list.append(qr_data)
 ```
-8. Декодированные данные QR-кода сохраняются в базу данных при помощи **`SQLAlchemy`**:
 
-```python
-        qr_data_entry = QRData(data=qr_data)
-        db_session.add(qr_data_entry)
-        db_session.commit()
-```
-
-9. Сервер создает метки на исходном изображении для отображения местоположения QR-кодов, используя **`OpenCV`**:
+8. The server creates markers on the original image to show the location of the QR codes using **`OpenCV`**:
 
 ```python
         points = obj.polygon
@@ -156,7 +202,7 @@ if decoded_objects:
 
 <img src="https://link-akyoning.replit.app/files/photo_2024-05-28_14-18-24.jpg">
 
-10. На клиентской стороне отображается **`alert`** с результатами сканирования QR-кодов:
+9. An **`alert`** is displayed on the client side with the QR code scanning results:
 
 ```javascript
 .then((data) => {
@@ -170,27 +216,3 @@ if decoded_objects:
 ```
 
 <img src="https://link-akyoning.replit.app/files/photo_2024-05-28_14-42-14.jpg">
-
-### 7. **База данных:**
-Для хранения данных используем PostgreSQL, СУБД, которая позволяет надежно хранить данные и легко масштабироваться.
- - SQLAlchemy ORM используется для взаимодействия с базой данных. Он упрощает работу с данными и позволяет писать код, независимый от конкретной СУБД.
- - Модели определяются в `models.py`. Они представляют собой схемы таблиц базы данных и позволяют взаимодействовать с данными через классы Python.
-
-**`PostgreSQL`** — это мощная, объектно-реляционная база данных с открытым исходным кодом (ORDBMS). Она поддерживает множество современных функций и стандартов SQL.
-
-_**Основные характеристики PostgreSQL:**_
-
-1. **Открытый исходный код**: PostgreSQL распространяется под лицензией PostgreSQL, которая позволяет свободно использовать, изменять и распространять базу данных.
-
-2. **Совместимость со стандартами**: PostgreSQL поддерживает полный набор функций стандарта SQL и добавляет дополнительные возможности, такие как индексирование полнотекстового поиска, массивы, таблицы с наследованием и др.
-
-3. **Расширяемость**: PostgreSQL может быть легко расширена за счет Операторских функций, агрегатов, типов данных и операторов.
-
-4. **Продвинутое управление транзакциями**: PostgreSQL поддерживает ACID (Atomicity, Consistency, Isolation, Durability), обеспечение высокой надежности данных.
-
-5. **Поддержка JSON**: PostgreSQL имеет мощные встроенные функции для работы с JSON и JSONB, что делает его подходящим для хранения гибких и сложных документов.
-
-6.**Масштабируемость и производительность**: PostgreSQL поддерживает широкий диапазон функций, которые позволяют масштабировать и оптимизировать производительность, включая индексы, репликацию, шардинг (разделение данных) и параллельное выполнение запросов.
-5. **Поддержка JSON**: PostgreSQL имеет мощные встроенные функции для работы с JSON и JSONB, что делает его подходящим для хранения гибких и сложных документов.
-
-6.**Масштабируемость и производительность**: PostgreSQL поддерживает широкий диапазон функций, которые позволяют масштабировать и оптимизировать производительность, включая индексы, репликацию, шардинг (разделение данных) и параллельное выполнение запросов.

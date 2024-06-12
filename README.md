@@ -62,7 +62,7 @@ Additional Notes
  -  Use the code **2222** to access the admin interface.
  -  These can be adjusted in access.js if needed.
 
-<img src="https://replit.com/@akyoning/QRVision-1#assets/photo/560bce24.jpg:large">
+<img src="https://github.com/Solrikk/QRVision/blob/main/assets/photo/560bce24.jpg" width="65%" /> 
 
 ## Features ⚙️
 
